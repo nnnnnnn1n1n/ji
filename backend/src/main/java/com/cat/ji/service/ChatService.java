@@ -18,7 +18,10 @@ public class ChatService {
 
     public String chat(String message) {
 
+        long start = System.nanoTime();
+
         String memory = memoryService.getMemory();
+        long memoryLoaded = System.nanoTime();
 
         String prompt = """
                 คุณกำลังสนทนาเกี่ยวกับแมวชื่อจี้
@@ -38,6 +41,13 @@ public class ChatService {
                 - หากไม่มีข้อมูลที่ตอบคำถามได้ อย่าแต่งเรื่องขึ้นมาเอง
                 - ตอบอย่างเป็นธรรมชาติและอบอุ่น
                 """.formatted(memory, message);
+
+        long promptBuilt = System.nanoTime();
+
+        System.out.println("[CHAT] Memory load ms: "
+                + (memoryLoaded - start) / 1_000_000);
+        System.out.println("[CHAT] Prompt build ms: "
+                + (promptBuilt - memoryLoaded) / 1_000_000);
 
         return ollamaClient.chat(prompt);
     }
