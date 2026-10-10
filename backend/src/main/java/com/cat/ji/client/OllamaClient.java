@@ -61,7 +61,7 @@ public class OllamaClient {
                             String responseText = extractJsonValue(line, "response");
 
                             if (thinking != null && !thinking.isEmpty()) {
-                                System.out.print(thinking);
+                                System.out.print(formatThinking(thinking));
                                 System.out.flush();
                             }
 
@@ -110,7 +110,11 @@ public class OllamaClient {
             String model,
             String prompt,
             boolean stream,
-            boolean think
-    ) {
+            boolean think) {
+    }
+
+    private String formatThinking(String text) {
+        return text
+                .replaceAll("\\s+", " ");
     }
 }
