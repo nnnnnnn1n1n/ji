@@ -12,11 +12,13 @@ import java.nio.charset.StandardCharsets;
 public class OllamaClient {
 
     private final RestClient restClient;
+    private final Boolean thinking;
 
-    public OllamaClient() {
+    public OllamaClient(@Value("${ji.memory.thinking}") Boolean thinking) {
         this.restClient = RestClient.builder()
                 .baseUrl("http://localhost:11434")
                 .build();
+        this.thinking = thinking;
     }
 
     public String chat(String message) {
@@ -37,8 +39,7 @@ public class OllamaClient {
                         "qwen3:4b",
                         message,
                         true,
-                        true
-                ))
+                        thinking))
                 .exchange((request, response) -> {
 
                     System.out.println();
